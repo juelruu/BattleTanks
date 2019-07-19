@@ -1,0 +1,14 @@
+BattleTanks/Binaries
+BattleTanks/DerivedDataCache
+BattleTanks/Intermediate
+BattleTanks/Saved
+BattleTanks/.vscode
+BattleTanks/.vs
+VC.db
+*.opensdf
+*.opendb
+*.sdf
+*.sln
+*.suo
+*.xcodeproj
+*.xcworkspace
