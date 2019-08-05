@@ -2,8 +2,8 @@
 
 #pragma once
 
+#include "Public/Tank.h"
 #include "CoreMinimal.h"
-#include "Tank.h"
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
@@ -15,11 +15,19 @@ class ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
-public:
+private:
+
+	float ViewportXlocation = 0.5;
+	float ViewportYLocation = 0.333;
+
 	ATank* GetControlledPawn() const;
 
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
+
+	void AimTowardsCrosshair();
+
+	bool GetSightRayHitLocation(FVector& OurHitLocation) const;
 };
 

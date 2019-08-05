@@ -18,9 +18,25 @@ ATank* ATankPlayerController::GetControlledPawn() const {
 }
 
 void ATankPlayerController::Tick(float DeltaTime) {
+	Super::Tick(DeltaTime);
+
+	AimTowardsCrosshair();
+}
+
+void ATankPlayerController::AimTowardsCrosshair() {
 
 	if (!GetControlledPawn()) { return; }
-	FVector HitLocation;
 
-	UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+	FVector HitLocation{2.0};
+
+	GetSightRayHitLocation(HitLocation);
+}
+
+bool ATankPlayerController::GetSightRayHitLocation(FVector& OurHitLocation) const {
+	int32 ViewportXSize, ViewportYSize;
+
+	GetViewportSize(ViewportXSize, ViewportYSize);
+	auto ScreenLocation = FVector2D(ViewportXSize * ViewportXlocation, ViewportYSize * ViewportYLocation);
+	UE_LOG(LogTemp, Warning, TEXT("ScreenLocation: %s"), *ScreenLocation.ToString());
+	return true;
 }
