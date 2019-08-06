@@ -20,6 +20,8 @@ private:
 	float ViewportXlocation = 0.5;
 	float ViewportYLocation = 0.333;
 
+	int32 LineTraceRange = 1000000;
+
 	ATank* GetControlledPawn() const;
 
 	virtual void BeginPlay() override;
@@ -31,5 +33,6 @@ private:
 	bool GetSightRayHitLocation(FVector& OurHitLocation) const;
 
 	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
+	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
 };
 
