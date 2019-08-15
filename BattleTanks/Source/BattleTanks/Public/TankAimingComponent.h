@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Kismet/GameplayStatics.h"
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+class UTankBarrel;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANKS_API UTankAimingComponent : public UActorComponent
@@ -16,7 +18,9 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-	void AimAt(FVector HitLocation);
+	void AimAt(FVector HitLocation, float LaunchSpeed);
+
+	void SetBarrelReference(UTankBarrel* SetToBarrel);
 
 protected:
 	// Called when the game starts
@@ -26,5 +30,8 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+	
+private:
+	UTankBarrel* Barrel = nullptr;
+	void MoveBarrelTowards(FVector AimDirection);
 };
