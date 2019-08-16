@@ -1,5 +1,8 @@
-#include "TankBarrel.h"
 #include "TankAimingComponent.h"
+#include "TankBarrel.h"
+#include "TankTurret.h"
+#include "CoreMinimal.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -37,12 +40,16 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) {
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
+	// Calculate vector to target
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
 		this,
 		OutLaunchVelocity, 
 		StartLocation, 
 		HitLocation, 
-		LaunchSpeed, 
+		LaunchSpeed,
+		false,
+		0,
+		0,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
 
@@ -56,7 +63,14 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) {
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* SetToBarrel)
 {
+	if (!SetToBarrel) { return; }
 	Barrel = SetToBarrel;
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurret* SetToTurret)
+{
+	if (!SetToTurret) { return; }
+	Turret = SetToTurret;
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
@@ -66,5 +80,5 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	
 	auto DeltaRotation = AimAsRotator - BarrelRotator;
 
-	Barrel->Elevate(5);
+	Barrel->Elevate(DeltaRotation.Pitch);
 }

@@ -1,13 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
-
 #include "CoreMinimal.h"
-#include "TankAimingComponent.h"
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
 class UTankBarrel;
+class UTankAimingComponent;
 
 UCLASS()
 class BATTLETANKS_API ATank : public APawn
@@ -21,6 +17,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void SetBarrelReference(UTankBarrel* SetToBarrel);
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		void SetTurretReference(UTankTurret* SetToTurret);
 
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
