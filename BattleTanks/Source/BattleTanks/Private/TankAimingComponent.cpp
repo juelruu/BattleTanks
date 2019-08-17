@@ -9,7 +9,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
@@ -77,8 +77,10 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
-	
-	auto DeltaRotation = AimAsRotator - BarrelRotator;
+	auto DeltaRotation = AimAsRotator - BarrelRotator; // This line incorrect subtracts BarrelRotator from AimAsRotator if AimAsRotator.Yaw = 179.886734. 
+
+	UE_LOG(LogTemp, Warning, TEXT("Delta: %f - %f = %f"), AimAsRotator.Yaw, BarrelRotator.Yaw, DeltaRotation.Yaw);
 
 	Barrel->Elevate(DeltaRotation.Pitch);
+	Turret->Rotate(DeltaRotation.Yaw);
 }
