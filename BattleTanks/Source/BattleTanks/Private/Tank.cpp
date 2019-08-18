@@ -7,11 +7,12 @@
 
 void ATank::Fire()
 {
-	if (!Barrel) { return; }
-	
-	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
-	Projectile->LaunchProjectile(LaunchSpeed);
-
+	bool isReloaded = (FPlatformTime::Seconds() - LastReload) > TimeForReloadInSeconds;
+	if (Barrel && isReloaded) {
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastReload = FPlatformTime::Seconds();
+	}
 }
 
 void ATank::SetBarrelReference(UTankBarrel* SetToBarrel)
