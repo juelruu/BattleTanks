@@ -1,9 +1,23 @@
 #include "Public/Tank.h"
+#include "CoreMinimal.h"
+#include "Engine/World.h"
+#include "Projectile.h"
+#include "TankBarrel.h"
 #include "TankAimingComponent.h"
+
+void ATank::Fire()
+{
+	if (!Barrel) { return; }
+	
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
+	Projectile->LaunchProjectile(LaunchSpeed);
+
+}
 
 void ATank::SetBarrelReference(UTankBarrel* SetToBarrel)
 {
 	TankAimingComponent->SetBarrelReference(SetToBarrel);
+	Barrel = SetToBarrel;
 }
 
 void ATank::SetTurretReference(UTankTurret* SetToTurret)

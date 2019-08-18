@@ -1,4 +1,4 @@
-#include "TankAimingComponent.h"
+﻿#include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
 #include "CoreMinimal.h"
@@ -54,7 +54,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) {
 	);
 
 	if (bHaveAimSolution) {
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		FVector AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 	}
 	else
@@ -75,12 +75,22 @@ void UTankAimingComponent::SetTurretReference(UTankTurret* SetToTurret)
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
-	auto AimAsRotator = AimDirection.Rotation();
-	auto DeltaRotation = AimAsRotator - BarrelRotator; // This line incorrect subtracts BarrelRotator from AimAsRotator if AimAsRotator.Yaw = 179.886734. 
+	//FRotator TurretRotation = Turret->GetComponentRotation();
+	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
+	FRotator AimAsRotator = AimDirection.Rotation();
 
-	UE_LOG(LogTemp, Warning, TEXT("Delta: %f - %f = %f"), AimAsRotator.Yaw, BarrelRotator.Yaw, DeltaRotation.Yaw);
+	float DeltaRotation = 0;
+	float DeltaElevation = AimAsRotator.Pitch - BarrelRotator.Pitch;
 
-	Barrel->Elevate(DeltaRotation.Pitch);
-	Turret->Rotate(DeltaRotation.Yaw);
+	/*if (AimAsRotator.Yaw > 0 ) 
+		DeltaRotation = AimAsRotator.Yaw - BarrelRotator.Yaw;
+	else*/
+	DeltaRotation = AimAsRotator.Yaw - BarrelRotator.Yaw;
+
+
+	//UE_LOG(LogTemp, Warning, TEXT("Delta: %f - %f = %f"), AimAsRotator.Yaw, BarrelRotator.Yaw, DeltaRotation);
+	UE_LOG(LogTemp, Warning, TEXT("TurretPos: %f %f %f"), AimAsRotator.Yaw, BarrelRotator.Yaw, DeltaRotation);
+
+	Barrel->Elevate(DeltaElevation);
+	Turret->Rotate(DeltaRotation);
 }
