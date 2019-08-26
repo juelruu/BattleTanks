@@ -13,15 +13,17 @@ class BATTLETANKS_API ATank : public APawn
 public:
 	// Sets default values for this pawn's properties
 
-	void AimAt(FVector HitLocation);
+	UPROPERTY(EditAnywhere, Category = Firing)
+		float LaunchSpeed = 4000;
 
-	UFUNCTION(BlueprintCallable, Category = Firing)
-	void Fire();
+	UPROPERTY(EditAnywhere, Category = Firing)
+		TSubclassOf<AProjectile> ProjectileClass;
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetBarrelReference(UTankBarrel* SetToBarrel);
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetTurretReference(UTankTurret* SetToTurret);
+	UTankBarrel* Barrel = nullptr;
+
+	float TimeForReloadInSeconds = 3.0;
+
+	double LastReload = 0;
 
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
@@ -35,16 +37,24 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditAnywhere, Category = Firing)
-		float LaunchSpeed = 4000;
+	void AimAt(FVector HitLocation);
 
-	UPROPERTY(EditAnywhere, Category = Firing)
-		TSubclassOf<AProjectile> ProjectileClass;
+	UFUNCTION(BlueprintCallable, Category = Firing)
+		void Fire();
 
-	UTankBarrel* Barrel = nullptr;
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		void SetBarrelReference(UTankBarrel* SetToBarrel);
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		void SetTurretReference(UTankTurret* SetToTurret);
 
-	float TimeForReloadInSeconds = 3.0;
-	
-	double LastReload = 0;
+	//Block of movement functions
+	/*UFUNCTION(BlueprintCallable, Category = Movement)
+		void Forward();
+	UFUNCTION(BlueprintCallable, Category = Movement)
+		void Back();
+	UFUNCTION(BlueprintCallable, Category = Movement)
+		void Left();
+	UFUNCTION(BlueprintCallable, Category = Movement)
+		void Right();*/
 
 };
