@@ -1,6 +1,5 @@
 #include "TankAIController.h"
 #include "Tank.h"
-#include "Engine/World.h"
 
 void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
@@ -14,8 +13,9 @@ void ATankAIController::Tick(float DeltaTime)
 	auto ControlledTank = Cast<ATank>(GetPawn());
 
 	if (PlayerTank) {
+		MoveToActor(PlayerTank, AcceptanceRadius);
 		ControlledTank->AimAt(PlayerTank->GetActorLocation());
-		//ControlledTank->Fire();
+		ControlledTank->Fire();
 	}
 	else
 		UE_LOG(LogTemp, Warning, TEXT("Player not found"));

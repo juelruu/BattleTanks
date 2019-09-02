@@ -22,5 +22,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Movement)
 		void IntentRotate(float Throw);
 
+	UFUNCTION(BlueprintCallable, Category = Movement)
+		virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 	
 };

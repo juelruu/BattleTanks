@@ -16,7 +16,7 @@ class BATTLETANKS_API UTankTrack : public UStaticMeshComponent
 
 public:
 	UPROPERTY(EditDefaultsOnly)
-		float MaxDrivingForce = 20000000;
+		float MaxDrivingForce = 40000000;
 	
 public:
 

@@ -11,11 +11,9 @@ void UTankTrack::SetThrottle(float Throttle) {
 	if (TankRoot != nullptr){
 		TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
 
-		UE_LOG(LogTemp, Warning, TEXT("%s force: %s ===> throttle: %f"), TankRoot, *ForceApplied.ToString(), Throttle);
+		//UE_LOG(LogTemp, Warning, TEXT("%s force: %s ===> throttle: %f"), TankRoot, *ForceApplied.ToString(), Throttle);
 	}
-	else{ 
-		return; 
-	}
+	else{ return; }
 	
 }
 
