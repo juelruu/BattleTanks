@@ -1,21 +1,29 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #include "TankPlayerController.h"
+#include "TankAimingComponent.h"
+#include "BattleTanks.h"
+#include "Tank.h"
 
 void ATankPlayerController::BeginPlay() {
 	Super::BeginPlay();
 
-	auto ControlledTank = GetControlledPawn();
-	if (ControlledTank)
-		UE_LOG(LogTemp, Warning, TEXT("ATankPlayerContoller start play by %s."), *ControlledTank->GetName())
-	else
-		UE_LOG(LogTemp, Error, TEXT("ATankPlayerContoller don't start play."));
+	auto AimingComponent = GetControlledPawn()->FindComponentByClass<UTankAimingComponent>();
+
+	if (AimingComponent) {
+		FoundAimingComponent(AimingComponent);
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Player controller can't find aiming component at BeginPlay"));
+	}
 }
 
 
 ATank* ATankPlayerController::GetControlledPawn() const {
 	return Cast<ATank>(GetPawn());
 }
+
+/*void ATankPlayerController::FoundAimingComponent(UTankAimingComponent* AimCompRef) {
+
+}*/
 
 void ATankPlayerController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
@@ -25,7 +33,7 @@ void ATankPlayerController::Tick(float DeltaTime) {
 
 void ATankPlayerController::AimTowardsCrosshair() {
 
-	if (!GetControlledPawn()) { return; }
+	if (!ensure(GetControlledPawn())) { return; }
 
 	FVector HitLocation{2.0};
 
