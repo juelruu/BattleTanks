@@ -2,6 +2,11 @@
 #include "BattleTanks.h"
 #include "TankTrack.h"
 
+UTankMovementComponent::UTankMovementComponent() {
+	PrimaryComponentTick.bCanEverTick = true;
+}
+
+
 void UTankMovementComponent::Initialize(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet) {
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;

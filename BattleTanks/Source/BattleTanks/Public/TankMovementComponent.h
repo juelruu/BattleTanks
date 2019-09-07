@@ -13,6 +13,9 @@ private:
 	UTankTrack* RightTrack = nullptr;
 
 public:
+
+	UTankMovementComponent();
+
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void Initialize(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 

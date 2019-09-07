@@ -50,15 +50,4 @@ public:
 		void SetBarrelReference(UTankBarrel* SetToBarrel);
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void SetTurretReference(UTankTurret* SetToTurret);
-
-	//Block of movement functions
-	/*UFUNCTION(BlueprintCallable, Category = Movement)
-		void Forward();
-	UFUNCTION(BlueprintCallable, Category = Movement)
-		void Back();
-	UFUNCTION(BlueprintCallable, Category = Movement)
-		void Left();
-	UFUNCTION(BlueprintCallable, Category = Movement)
-		void Right();*/
-
 };

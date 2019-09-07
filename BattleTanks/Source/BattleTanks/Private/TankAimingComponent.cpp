@@ -9,7 +9,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
 }
@@ -19,9 +19,6 @@ UTankAimingComponent::UTankAimingComponent()
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
 }
 
 
@@ -76,19 +73,15 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	//FRotator TurretRotation = Turret->GetComponentRotation();
 	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
-	float DeltaRotation = 0;
-	float DeltaElevation = AimAsRotator.Pitch - BarrelRotator.Pitch;
+	Barrel->Elevate(DeltaRotator.Pitch);
 
-	/*if (AimAsRotator.Yaw > 0 ) 
-		DeltaRotation = AimAsRotator.Yaw - BarrelRotator.Yaw;
-	else*/
-	DeltaRotation = AimAsRotator.Yaw - BarrelRotator.Yaw;
-
-
-	//UE_LOG(LogTemp, Warning, TEXT("Delta: %f - %f = %f"), AimAsRotator.Yaw, BarrelRotator.Yaw, DeltaRotation);
-	//UE_LOG(LogTemp, Warning, TEXT("TurretPos: %f %f %f"), AimAsRotator.Yaw, BarrelRotator.Yaw, DeltaRotation);
-
-	Barrel->Elevate(DeltaElevation);
-	Turret->Rotate(DeltaRotation);
+	if (FMath::Abs(DeltaRotator.Yaw) < 180 )
+		Turret->Rotate(DeltaRotator.Yaw);
+	else {
+		Turret->Rotate(-DeltaRotator.Yaw);
+		
+	}
+	
 }
