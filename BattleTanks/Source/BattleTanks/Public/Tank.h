@@ -15,7 +15,7 @@ public:
 	// Sets default values for this pawn's properties
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-		float LaunchSpeed = 4000;
+		float LaunchSpeed = 200000;
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 		TSubclassOf<AProjectile> ProjectileClass;
