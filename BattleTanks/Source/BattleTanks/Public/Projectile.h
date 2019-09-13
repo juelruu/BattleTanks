@@ -2,6 +2,7 @@
 #include "Projectile.generated.h"
 
 class UProjectileMovementComponent;
+class URadialForceComponent;
 
 UCLASS()
 class BATTLETANKS_API AProjectile : public AActor
@@ -19,6 +20,10 @@ protected:
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
+	float DestroyDelay = 5.f;
+
+	void TimeToDie();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -35,4 +40,11 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UParticleSystemComponent* ImpactBlast = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	URadialForceComponent* RadForce = nullptr;
+
+private:
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float Damage = 20.f;
 };

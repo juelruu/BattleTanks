@@ -50,3 +50,24 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent){
 void ATank::AimAt(FVector HitLocation) {
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
+
+float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser){
+
+	int32 DamagePoint = FPlatformMath::RoundToInt(DamageAmount);
+	int32 DamageToApply = FMath::Clamp(DamagePoint, 0, CurrentHealth);
+
+	CurrentHealth -=DamageToApply;
+	
+	if(CurrentHealth <= 0){
+		OnDeath.Broadcast();
+	}
+	else{
+		UE_LOG(LogTemp, Warning, TEXT("%s health: %i DamageAmount: %f, DamageToApply: %i"), *GetName(), CurrentHealth, DamageAmount, DamageToApply);
+	}
+		
+	return DamageToApply;
+}
+
+float ATank::GetHealthInProcent(){
+	return (float)CurrentHealth / (float)StartingHealth;
+}
